@@ -52,7 +52,7 @@ LRESULT CALLBACK MainWindowCallback(HWND Wnd, UINT Msg, WPARAM WParam, LPARAM LP
 
     default: {
         // OutputDebugStringA("default\n");
-        result = DefWindowProc(Wnd, Msg, WParam, LParam);
+        result = DefWindowProcA(Wnd, Msg, WParam, LParam);
     }
     break;
     }
@@ -69,20 +69,20 @@ int CALLBACK WinMain(HINSTANCE Instance, HINSTANCE PrevInstance, LPSTR CmdLine, 
     // WindowClass.hIcon;
     WndClass.lpszClassName = "HandmadeHeroWindowClass";
 
-    if (RegisterClass(&WndClass))
+    if (RegisterClassA(&WndClass))
     {
-        HWND Wnd = CreateWindowEx(0, WndClass.lpszClassName, "Handmade Hero", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
-                                  CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, Instance, 0);
+        HWND Wnd = CreateWindowExA(0, WndClass.lpszClassName, "Handmade Hero", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+                                   CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, 0, 0, Instance, 0);
 
         if (Wnd)
         {
             MSG Msg;
-            BOOL MsgRes = GetMessage(&Msg, 0, 0, 0);
+            BOOL MsgRes = GetMessageA(&Msg, 0, 0, 0);
             while (MsgRes > 0)
             {
                 TranslateMessage(&Msg);
-                DispatchMessage(&Msg);
-                MsgRes = GetMessage(&Msg, 0, 0, 0);
+                DispatchMessageA(&Msg);
+                MsgRes = GetMessageA(&Msg, 0, 0, 0);
             }
         }
         else

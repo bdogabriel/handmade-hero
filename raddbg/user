@@ -10,16 +10,11 @@ window:
     {
       0.329249:
       {
-        watch:
-        {
-          selected
-          expression: ""
-          watch: WindowClass
-          normal: 0.205796 0.794204
-        }
+        selected
+        watch: selected normal: 0.205796 0.794204
         watch: expression: "query:types"
       }
-      0.191607:
+      0.212462:
       {
         watch:
         {
@@ -30,17 +25,16 @@ window:
         watch: expression: "query:breakpoints"
         watch: expression: "query:watch_pins"
       }
-      0.282325:
+      0.208290:
       {
-        selected
         disasm:
         {
+          selected
           expression: ""
           query: input: ""
         }
         text:
         {
-          selected
           expression: "query:output"
           query: input: ""
           cursor_line: 1
@@ -49,7 +43,7 @@ window:
           mark_column: 1
         }
       }
-      0.196819:
+      0.249999:
       {
         watch:
         {
@@ -66,9 +60,9 @@ window:
       expression: "file:\"C:/Users/User/handmade-hero/src/win32_handmade.cpp\".data"
       project: "C:/Users/User/AppData/Roaming/raddbg/default.raddbg_project"
       query: input: ""
-      cursor_line: 47
+      cursor_line: 44
       cursor_column: 1
-      mark_line: 47
+      mark_line: 44
       mark_column: 1
     }
   }
