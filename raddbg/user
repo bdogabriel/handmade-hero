@@ -8,13 +8,22 @@ window:
   {
     0.350313:
     {
-      0.329249:
+      0.246872:
       {
         selected
-        watch: selected normal: 0.205796 0.794204
+        watch:
+        {
+          selected
+          normal: 0.205796 0.794204
+          query:
+          {
+            cmd: search_backwards
+            input: ""
+          }
+        }
         watch: expression: "query:types"
       }
-      0.212462:
+      0.248958:
       {
         watch:
         {
@@ -25,7 +34,7 @@ window:
         watch: expression: "query:breakpoints"
         watch: expression: "query:watch_pins"
       }
-      0.208290:
+      0.238530:
       {
         disasm:
         {
@@ -43,7 +52,7 @@ window:
           mark_column: 1
         }
       }
-      0.249999:
+      0.265640:
       {
         watch:
         {
