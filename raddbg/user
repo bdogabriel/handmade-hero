@@ -6,39 +6,29 @@ window:
   size: 1536.000000 825.599976
   panels:
   {
-    0.350313:
+    0.500261:
     {
-      0.246872:
+      0.444150: watch:
+      {
+        selected
+        normal: 0.395082 0.604918
+        query:
+        {
+          cmd: goto_address
+          input: ""
+        }
+        watch: GlobalBackBuffer
+      }
+      0.555850:
       {
         selected
         watch:
         {
-          selected
-          normal: 0.205796 0.794204
-          query:
-          {
-            cmd: search_backwards
-            input: ""
-          }
+          expression: "query:call_stack"
+          call_stack_frame: 0.050000 0.686526 0.263474
         }
-        watch: expression: "query:types"
-      }
-      0.248958:
-      {
-        watch:
-        {
-          expression: "query:threads"
-          selected
-        }
-        watch: expression: "query:targets"
-        watch: expression: "query:breakpoints"
-        watch: expression: "query:watch_pins"
-      }
-      0.238530:
-      {
         disasm:
         {
-          selected
           expression: ""
           query: input: ""
         }
@@ -51,27 +41,29 @@ window:
           mark_line: 1
           mark_column: 1
         }
-      }
-      0.265640:
-      {
-        watch:
+        memory:
         {
           selected
-          expression: "query:call_stack"
-          call_stack_frame: 0.050000 0.686526 0.263474
+          expression: ""
+          query:
+          {
+            cmd: goto_address
+            input: 0x278c4e7f000
+          }
+          cursor: 0x278c4e7f000
+          mark: 0x278c4e7f000
         }
-        watch: expression: "query:modules"
       }
     }
-    0.649687: getting_started text:
+    0.499739: getting_started text:
     {
       selected
       expression: "file:\"C:/Users/User/handmade-hero/src/win32_handmade.cpp\".data"
       project: "C:/Users/User/AppData/Roaming/raddbg/default.raddbg_project"
       query: input: ""
-      cursor_line: 44
+      cursor_line: 32
       cursor_column: 1
-      mark_line: 44
+      mark_line: 32
       mark_column: 1
     }
   }
