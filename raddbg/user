@@ -6,18 +6,25 @@ window:
   size: 1536.000000 825.599976
   panels:
   {
-    0.500261:
+    0.433385:
     {
-      0.444150: watch:
+      0.444150:
       {
-        selected
-        normal: 0.395082 0.604918
-        query:
+        watch:
         {
-          cmd: goto_address
-          input: ""
+          selected
+          normal: 0.395082 0.604918
+          query:
+          {
+            cmd: goto_address
+            input: ""
+          }
+          watch: GlobalBackBuffer
+          watch: XInputGetState_
+          watch: XInputSetState_
+          watch: XInputLibrary
         }
-        watch: GlobalBackBuffer
+        watch: expression: "query:targets"
       }
       0.555850:
       {
@@ -30,10 +37,15 @@ window:
         disasm:
         {
           expression: ""
-          query: input: ""
+          query:
+          {
+            input: ""
+            cmd: goto_address
+          }
         }
         text:
         {
+          selected
           expression: "query:output"
           query: input: ""
           cursor_line: 1
@@ -43,27 +55,26 @@ window:
         }
         memory:
         {
-          selected
           expression: ""
           query:
           {
             cmd: goto_address
-            input: 0x278c4e7f000
+            input: 0x1
           }
-          cursor: 0x278c4e7f000
-          mark: 0x278c4e7f000
+          cursor: 0x1
+          mark: 0x1
         }
       }
     }
-    0.499739: getting_started text:
+    0.566615: getting_started text:
     {
       selected
       expression: "file:\"C:/Users/User/handmade-hero/src/win32_handmade.cpp\".data"
       project: "C:/Users/User/AppData/Roaming/raddbg/default.raddbg_project"
       query: input: ""
-      cursor_line: 32
+      cursor_line: 60
       cursor_column: 1
-      mark_line: 32
+      mark_line: 60
       mark_column: 1
     }
   }
