@@ -10,6 +10,7 @@ window:
     {
       0.444150:
       {
+        selected
         watch:
         {
           selected
@@ -20,15 +21,17 @@ window:
             input: ""
           }
           watch: GlobalBackBuffer
-          watch: XInputGetState_
-          watch: XInputSetState_
-          watch: XInputLibrary
+          watch: DSoundLibrary
+          watch: DirectSound
+          watch: PrimaryBuffer
+          watch: SecondaryBuffer
+          watch: BufferDesc
+          watch: PrimaryBuffer
         }
         watch: expression: "query:targets"
       }
       0.555850:
       {
-        selected
         watch:
         {
           expression: "query:call_stack"
@@ -36,6 +39,7 @@ window:
         }
         disasm:
         {
+          selected
           expression: ""
           query:
           {
@@ -45,13 +49,12 @@ window:
         }
         text:
         {
-          selected
           expression: "query:output"
           query: input: ""
-          cursor_line: 1
-          cursor_column: 1
-          mark_line: 1
-          mark_column: 1
+          cursor_line: 4
+          cursor_column: 10
+          mark_line: 4
+          mark_column: 10
         }
         memory:
         {
@@ -72,15 +75,15 @@ window:
       expression: "file:\"C:/Users/User/handmade-hero/src/win32_handmade.cpp\".data"
       project: "C:/Users/User/AppData/Roaming/raddbg/default.raddbg_project"
       query: input: ""
-      cursor_line: 60
+      cursor_line: 329
       cursor_column: 1
-      mark_line: 60
+      mark_line: 329
       mark_column: 1
     }
   }
   split_x
   pos: 192 103
-  monitor: "\\\\.\\DISPLAY1"
+  monitor: "\\\\.\\DISPLAY7"
   maximized
 }
 keybindings:
