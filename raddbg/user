@@ -6,7 +6,7 @@ window:
   size: 1536.000000 825.599976
   panels:
   {
-    0.433385:
+    0.429205:
     {
       0.444150:
       {
@@ -20,10 +20,14 @@ window:
             cmd: goto_address
             input: ""
           }
-          watch: GlobalBackBuffer
-          watch: GlobalSecondaryBuffer
-          watch: RunningSampleIndex
-          watch: SoundOutput
+          watch: gBackBuffer
+          watch: gSecondaryBuffer
+          watch: runningSampleIndex
+          watch: soundOutput
+          watch: lStickY
+          watch: xOffset
+          watch: yOffset
+          watch: lStickY
         }
         watch: expression: "query:targets"
       }
@@ -36,7 +40,6 @@ window:
         }
         disasm:
         {
-          selected
           expression: ""
           query:
           {
@@ -46,6 +49,7 @@ window:
         }
         text:
         {
+          selected
           expression: "query:output"
           query: input: ""
           cursor_line: 4
@@ -64,17 +68,18 @@ window:
           cursor: 0x1
           mark: 0x1
         }
+        watch: expression: "query:registers"
       }
     }
-    0.566615: getting_started text:
+    0.570795: getting_started text:
     {
       selected
       expression: "file:\"C:/Users/User/handmade-hero/src/win32_handmade.cpp\".data"
       project: "C:/Users/User/AppData/Roaming/raddbg/default.raddbg_project"
       query: input: ""
-      cursor_line: 367
+      cursor_line: 455
       cursor_column: 1
-      mark_line: 367
+      mark_line: 455
       mark_column: 1
     }
   }

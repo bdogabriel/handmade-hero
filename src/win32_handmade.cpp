@@ -1,5 +1,5 @@
 #include <dsound.h>
-#include <math.h>
+#include <math.h> // TODO: implement sine to remove math.h
 #include <stdint.h>
 #include <windows.h>
 #include <xinput.h>
@@ -56,8 +56,11 @@ struct Win32SoundOutput
     int sampleHz = 48000;
     int bytesPerSample = sizeof(int16_t) * 2;
     int bufferSize = sampleHz * bytesPerSample;
+    int targetCursorOffsetBytes =
+        (bytesPerSample * sampleHz / 15); // 15 = min fps to not clip; increase for lower latency
     int wavePeriod = sampleHz / toneHz;
     uint32_t runningSampleIndex = 0;
+    float t = 0;
 };
 
 // TODO: global for now
@@ -68,6 +71,11 @@ global LPDIRECTSOUNDBUFFER gSecondaryBuffer;
 internal void win32_load_xinput()
 {
     HMODULE xInputLib = LoadLibraryA("xinput1_4.dll");
+
+    if (!xInputLib)
+    {
+        xInputLib = LoadLibraryA("xinput9_1_0.dll");
+    }
 
     if (!xInputLib)
     {
@@ -166,22 +174,22 @@ internal void win32_fill_sound_buffer(Win32SoundOutput *soundOutput, DWORD byteT
         DWORD sampleCount = region1Size / soundOutput->bytesPerSample;
         for (DWORD sampleIndex = 0; sampleIndex < sampleCount; sampleIndex++)
         {
-            float t = 2.0f * PI * (float)soundOutput->runningSampleIndex / (float)soundOutput->wavePeriod;
-            int16_t sampleValue = (int16_t)(sinf(t) * soundOutput->toneVolume);
+            int16_t sampleValue = (int16_t)(sinf(soundOutput->t) * soundOutput->toneVolume);
             *sampleOut++ = sampleValue;
             *sampleOut++ = sampleValue;
             soundOutput->runningSampleIndex++;
+            soundOutput->t += 2.0f * PI / (float)soundOutput->wavePeriod;
         }
 
         sampleOut = (int16_t *)region2;
         sampleCount = region2Size / soundOutput->bytesPerSample;
         for (DWORD sampleIndex = 0; sampleIndex < sampleCount; sampleIndex++)
         {
-            float t = 2.0f * PI * (float)soundOutput->runningSampleIndex / (float)soundOutput->wavePeriod;
-            int16_t sampleValue = (int16_t)(sinf(t) * soundOutput->toneVolume);
+            int16_t sampleValue = (int16_t)(sinf(soundOutput->t) * soundOutput->toneVolume);
             *sampleOut++ = sampleValue;
             *sampleOut++ = sampleValue;
             soundOutput->runningSampleIndex++;
+            soundOutput->t += 2.0f * PI / (float)soundOutput->wavePeriod;
         }
 
         gSecondaryBuffer->Unlock(region1, region1Size, region2, region2Size);
@@ -381,7 +389,7 @@ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, 
     windowClass.style = CS_HREDRAW | CS_VREDRAW;
     windowClass.lpfnWndProc = win32_main_window_callback;
     windowClass.hInstance = instance;
-    // windowClass.hIcon;
+    // windowClass.hIcon; // TODO: game icon
     windowClass.lpszClassName = "HandmadeHeroWindowClass";
 
     if (RegisterClassA(&windowClass))
@@ -439,8 +447,23 @@ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, 
                         int16_t lStickX = pad->sThumbLX;
                         int16_t lStickY = pad->sThumbLY;
 
-                        xOffset -= lStickX >> 12;
-                        yOffset += lStickY >> 12;
+                        // TODO: handle deadzone with
+                        // XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE and
+                        // XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
+                        xOffset += lStickX / 4096;
+                        yOffset += lStickY / 4096;
+
+                        if (a | b | x | y)
+                        {
+                            soundOutput.toneHz = a * 128 + b * 256 + x * 384 + y * 512;
+                        }
+                        else
+                        {
+                            soundOutput.toneHz = 256;
+                        }
+
+                        soundOutput.toneHz *= (1 + 0.5 * (float)lStickY / 30000.0f);
+                        soundOutput.wavePeriod = soundOutput.sampleHz / soundOutput.toneHz;
                     }
                     else
                     {
@@ -459,13 +482,14 @@ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE prevInstance, LPSTR cmdLine, 
                     DWORD byteToLock =
                         (soundOutput.runningSampleIndex * soundOutput.bytesPerSample) % soundOutput.bufferSize;
 
-                    if (byteToLock > playCursor)
+                    DWORD targetCursor = (playCursor + soundOutput.targetCursorOffsetBytes) % soundOutput.bufferSize;
+                    if (byteToLock > targetCursor)
                     {
-                        bytesToWrite = playCursor + soundOutput.bufferSize - byteToLock;
+                        bytesToWrite = targetCursor + soundOutput.bufferSize - byteToLock;
                     }
-                    else if (byteToLock < playCursor)
+                    else
                     {
-                        bytesToWrite = playCursor - byteToLock;
+                        bytesToWrite = targetCursor - byteToLock;
                     }
 
                     win32_fill_sound_buffer(&soundOutput, byteToLock, bytesToWrite);
