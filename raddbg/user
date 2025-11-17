@@ -21,12 +21,9 @@ window:
             input: ""
           }
           watch: GlobalBackBuffer
-          watch: DSoundLibrary
-          watch: DirectSound
-          watch: PrimaryBuffer
-          watch: SecondaryBuffer
-          watch: BufferDesc
-          watch: PrimaryBuffer
+          watch: GlobalSecondaryBuffer
+          watch: RunningSampleIndex
+          watch: SoundOutput
         }
         watch: expression: "query:targets"
       }
@@ -75,15 +72,15 @@ window:
       expression: "file:\"C:/Users/User/handmade-hero/src/win32_handmade.cpp\".data"
       project: "C:/Users/User/AppData/Roaming/raddbg/default.raddbg_project"
       query: input: ""
-      cursor_line: 329
+      cursor_line: 367
       cursor_column: 1
-      mark_line: 329
+      mark_line: 367
       mark_column: 1
     }
   }
   split_x
   pos: 192 103
-  monitor: "\\\\.\\DISPLAY7"
+  monitor: "\\\\.\\DISPLAY1"
   maximized
 }
 keybindings:
